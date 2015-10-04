@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Todos App - EmberJS</title>
+  <meta name="Author" content="Délita Makanda">
+  <link rel="stylesheet" href="public/css/normalize.css">
+  <link rel="stylesheet" href="public/css/style.css">
+  <link href='http://fonts.googleapis.com/css?family=Nunito' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<script type="text/x-handlebars" id="todos">
+<div class="container">
+  <section id="todoapp">
+    <header id="header">
+        <h1>ToDo App</h1>
+        {{input type="text" id="new-todo" placeholder="Ajouter une note" value=newTitle action="createTodo"}}
+    </header>
+
+    <section id="main">
+      {{outlet}}
+        {{input type="checkbox" id="toggle-all" checked=allAreDone}} Tout sélectionner / déselectionner
+    </section>
+    <footer id="footer">
+      <span id="todo-count">
+        <strong>{{remaining}}</strong> {{inflection}} restantes
+      </span>
+      <ul id="filters">
+          <li>
+            {{#link-to "todos.index" activeClass="selected"}}Toutes{{/link-to}}
+          </li>
+          <li>
+            {{#link-to "todos.active" activeClass="selected"}}Actives{{/link-to}}
+          </li>
+          <li>
+            {{#link-to "todos.completed" activeClass="selected"}}Terminées{{/link-to}}
+          </li>
+      </ul>
+      {{#if hasCompleted}}
+      <button id="clear-completed" {{action "clearCompleted"}}>Effacer ({{completed}})</button>
+      {{/if}}
+    </footer>
+  </section>
+
+  <footer id="info">
+    <p>Double-cliquer sur une note pour la modifier</p>
+  </footer>
+</div>
+</script>
+
+<script type="text/x-handlebars" id="todos/index">
+  <ul id="todo-list">
+    {{#each itemController="todo"}}
+      <li {{bind-attr class="isCompleted:completed isEditing:editing"}}>
+        {{#if isEditing}}
+        {{edit-todo class="edit" value=title focus-out="acceptChanges" insert-newline="acceptChanges"}}
+        {{else}}
+        {{input type="checkbox" checked=isCompleted class="toggle"}}
+        <label {{action "editTodo" on="doubleClick"}}>{{title}}</label> <button {{action "removeTodo"}} class="destroy"></button>
+        {{/if}}
+      </li>
+      {{/each}}
+  </ul>
+</script>
+
+  <script src="js/libs/jquery-1.10.2.js"></script>
+  <script src="js/libs/handlebars-1.0.0.js"></script>
+  <!--<script src="js/libs/ember-template-compiler.js"></script>-->
+  <script src="js/libs/ember.js"></script>
+  <script src="js/libs/ember-data.js"></script>
+  <script src="js/libs/localstorage_adapter.js"></script>
+  <!--<script src="js/libs/fixture_adapter.js"></script>-->
+  <script src="public/js/app.js"></script>
+</body>
+</html>
