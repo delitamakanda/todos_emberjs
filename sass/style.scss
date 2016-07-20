@@ -48,7 +48,7 @@ ul {
       &:hover .destroy {
         display: block;
       }
-      [type="checkbox"] {
+      input[type="checkbox"] {
         &:not(:checked), &:checked {
           cursor: pointer;
           height: 85px;
